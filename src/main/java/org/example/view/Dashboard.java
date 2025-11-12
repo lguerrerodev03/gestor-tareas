@@ -3,6 +3,9 @@ package org.example.view;
 import org.example.view.componentes.BotonCuadrado;
 import org.example.view.componentes.TareaCard;
 import org.example.view.panels.PanelBotones;
+import org.example.view.panels.PanelBusqueda;
+import org.example.view.panels.PanelInformacion;
+import org.example.view.panels.PanelTitulo;
 import org.example.view.scrolls.ScrollPaneTareas;
 
 import javax.swing.*;
@@ -12,8 +15,10 @@ import java.awt.event.ActionListener;
 
 public class Dashboard extends JFrame implements ActionListener {
 
-    private JLabel lblTitulo;
-    private JPanel panelBusqueda, panelInformacion;
+    //private JLabel lblTitulo;
+    private PanelTitulo panelTitulo;
+    private PanelInformacion panelInformacion;
+    private PanelBusqueda panelBusqueda;
     private PanelBotones panelBotones;
     private ScrollPaneTareas scrollPaneTareas;
 
@@ -34,33 +39,61 @@ public class Dashboard extends JFrame implements ActionListener {
 
     private void iniciarControles() {
 
-        // labels
-        lblTitulo = new JLabel();
-        lblTitulo.setText("DASHBOARD DE TAREAS");
-        lblTitulo.setBounds(300, 20, 800, 25);
-        lblTitulo.setForeground(new Color(9, 92, 209));
-        lblTitulo.setFont(new Font("Verdana", Font.BOLD, 24));
-
         // panels
-        panelBusqueda = new JPanel();
-        panelBusqueda.setBounds(20, 50, 950, 50);
-        panelBusqueda.setBorder(BorderFactory.createTitledBorder("Búsqueda"));
-        panelBusqueda.setLayout(null);
-
+        panelTitulo = new PanelTitulo();
+        panelBusqueda = new PanelBusqueda();
         scrollPaneTareas = new ScrollPaneTareas();
+        panelInformacion = new PanelInformacion();
+        panelBotones = new PanelBotones();
 
-        panelInformacion = new JPanel();
-        panelInformacion.setBounds(570, 110, 300, 550);
-        panelInformacion.setBorder(BorderFactory.createTitledBorder("Información"));
-        panelInformacion.setLayout(null);
+        definirDimensiones(this.getWidth(), this.getHeight());
 
-        panelBotones = new PanelBotones(this.getWidth(), this.getHeight());
-
-        this.add(lblTitulo);
+        this.add(panelTitulo);
         this.add(panelBusqueda);
         this.add(scrollPaneTareas);
         this.add(panelInformacion);
         this.add(panelBotones);
+    }
+
+    private void definirDimensiones(int dashboardDimensionX, int dashboardDimensionY) {
+        panelTitulo.setBounds(
+                porcentaje(2, dashboardDimensionX),
+                porcentaje(1, dashboardDimensionY),
+                porcentaje(96, dashboardDimensionX),
+                porcentaje(5, dashboardDimensionY)
+        );
+
+        panelBusqueda.setBounds(
+                porcentaje(2, dashboardDimensionX),
+                porcentaje(8, dashboardDimensionY),
+                porcentaje(96, dashboardDimensionX),
+                porcentaje(7, dashboardDimensionY)
+        );
+
+        scrollPaneTareas.setBounds(
+                porcentaje(2, dashboardDimensionX),
+                porcentaje(16, dashboardDimensionY),
+                porcentaje(55, dashboardDimensionX),
+                porcentaje(78, dashboardDimensionY)
+        );
+
+        panelInformacion.setBounds(
+                porcentaje(57, dashboardDimensionX),
+                porcentaje(16, dashboardDimensionY),
+                porcentaje(30, dashboardDimensionX),
+                porcentaje(78, dashboardDimensionY)
+        );
+
+        panelBotones.setBounds(
+                porcentaje(89, dashboardDimensionX),
+                porcentaje(16, dashboardDimensionY),
+                porcentaje(10, dashboardDimensionX),
+                porcentaje(78, dashboardDimensionY)
+        );
+    }
+
+    private int porcentaje(double porcentaje, int dimension) {
+        return (int) (porcentaje * dimension/100);
     }
 
     @Override

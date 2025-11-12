@@ -14,9 +14,9 @@ public class PanelBotones extends JPanel {
     private BotonCuadrado btnEliminar;
     private BotonCuadrado btnEditar;
 
-    public PanelBotones(int dashboardDimensionX, int dashboardDimensionY) {
+    public PanelBotones() {
 
-        this.setBounds(dashboardDimensionX - 120, 110, 100, dashboardDimensionY - 150);
+        //this.setBounds(dashboardDimensionX - 120, 110, 100, dashboardDimensionY - 150);
         this.setBorder(BorderFactory.createTitledBorder("Botones"));
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 

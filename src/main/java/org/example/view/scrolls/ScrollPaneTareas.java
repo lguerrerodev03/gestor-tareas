@@ -13,7 +13,7 @@ public class ScrollPaneTareas extends JScrollPane {
         panelTareas.setBorder(BorderFactory.createTitledBorder("Tareas"));
         panelTareas.setLayout(new BoxLayout(panelTareas, BoxLayout.Y_AXIS));
         this.setViewportView(panelTareas);
-        this.setBounds(20, 110, 550, 550);
+        //this.setBounds(20, 110, 550, 550);
         this.setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_ALWAYS);
         this.getVerticalScrollBar().setUnitIncrement(30);
 
