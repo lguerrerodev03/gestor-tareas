@@ -43,4 +43,10 @@ public class TareaService {
     public List<Tarea> obtenerTareas() {
         return tareaRepository.listar();
     }
+
+    public Tarea obtenerTareaPorId(int id) {
+        return tareaRepository.obtenerPorId(id).orElse(null);
+    }
+
+
 }

@@ -15,7 +15,6 @@ import java.awt.event.ActionListener;
 
 public class Dashboard extends JFrame implements ActionListener {
 
-    //private JLabel lblTitulo;
     private PanelTitulo panelTitulo;
     private PanelInformacion panelInformacion;
     private PanelBusqueda panelBusqueda;
@@ -43,7 +42,7 @@ public class Dashboard extends JFrame implements ActionListener {
         panelTitulo = new PanelTitulo();
         panelBusqueda = new PanelBusqueda();
         scrollPaneTareas = new ScrollPaneTareas();
-        panelInformacion = new PanelInformacion();
+        panelInformacion = new PanelInformacion(12);
         panelBotones = new PanelBotones();
 
         definirDimensiones(this.getWidth(), this.getHeight());

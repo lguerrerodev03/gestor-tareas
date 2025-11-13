@@ -1,5 +1,6 @@
 package org.example.view.scrolls;
 
+import org.example.model.enums.EstadoTarea;
 import org.example.view.componentes.TareaCard;
 
 import javax.swing.*;
@@ -23,16 +24,16 @@ public class ScrollPaneTareas extends JScrollPane {
     public void cargarTareas(int cantidad) {
         panelTareas.removeAll();
         for (int i = 1; i <= cantidad; i++) {
-            String estado;
+            EstadoTarea estado;
             int valor = i % 4;
             if (valor == 0) {
-                estado = "Pendiente";
+                estado = EstadoTarea.PENDIENTE;
             } else if (valor == 1) {
-                estado = "En progreso";
+                estado = EstadoTarea.EN_PROGRESO;
             } else if (valor == 2) {
-                estado = "Completada";
+                estado = EstadoTarea.COMPLETADA;
             } else {
-                estado = "Cancelada";
+                estado = EstadoTarea.CANCELADA;
             }
 
             TareaCard tareaCard = new TareaCard("Tarea " + i, estado, "2024-12-31");

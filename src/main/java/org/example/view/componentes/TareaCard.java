@@ -1,14 +1,25 @@
 package org.example.view.componentes;
 
+import org.example.model.enums.AccionTarea;
+import org.example.model.enums.EstadoTarea;
+import org.example.rules.FlujoTarea;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TareaCard extends JPanel {
     private JLabel lblNombre;
     private JLabel lblEstado;
     private JLabel lblFechaVencimiento;
+    private List<BotonPersonalizado> botonesAccion = new ArrayList<>();
+    private EstadoTarea estadoTarea;
 
-    public TareaCard(String nombre, String estado, String fechaVencimiento) {
+    public TareaCard(String nombre, EstadoTarea estado, String fechaVencimiento) {
+        this.estadoTarea = estado;
         // Estilo general de la tarjeta
         this.setLayout(null);
         this.setPreferredSize(new Dimension(500, 100));
@@ -31,23 +42,56 @@ public class TareaCard extends JPanel {
         this.add(lblNombre);
         this.add(lblEstado);
         this.add(lblFechaVencimiento);
+
+        // Crear botones según las acciones válidas
+        int posX = 220;
+        for (AccionTarea accion : FlujoTarea.obtenerAccionesPosibles(estado)) {
+            BotonPersonalizado boton = new BotonPersonalizado(accion.name());
+            boton.setBounds(posX, 20, 100, 30);
+            boton.setFont(new Font("Verdana", Font.PLAIN, 11));
+            boton.setColorNormal(new Color(100, 149, 237));
+            boton.setColorHover(new Color(70, 130, 180));
+            add(boton);
+            botonesAccion.add(boton);
+            posX += 110;
+        }
+
+        // para clics
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                JOptionPane.showMessageDialog(null,
+                        "Has seleccionado la tarea:\n" + nombre,
+                        "Tarea seleccionada",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                setBackground(getColorHover(estado));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                setBackground(getColorPorEstado(estado));
+            }
+        });
     }
 
-    private Color getColorPorEstado(String estado) {
-
-        Color color = new Color(255, 255, 255); // blanco por defecto
-
-        switch (estado.toLowerCase()) {
-            case "pendiente":
-                return new Color(255, 245, 204); // amarillo claro
-            case "en progreso":
-                return new Color(204, 229, 255); // azul claro
-            case "completada":
-                return new Color(204, 255, 204); // verde claro
-            case "cancelada":
-                return new Color(255, 204, 204); // rojo claro
-
-        };
-        return color;
+    private Color getColorPorEstado(EstadoTarea estado) {
+        switch (estado) {
+            case PENDIENTE: return new Color(255, 245, 204);
+            case EN_PROGRESO: return new Color(204, 229, 255);
+            case COMPLETADA: return new Color(204, 255, 204);
+            case CANCELADA: return new Color(255, 204, 204);
+            default: return Color.WHITE;
+        }
     }
+
+    private Color getColorHover(EstadoTarea estado) {
+        Color base = getColorPorEstado(estado);
+        return base.darker(); // un tono más oscuro
+    }
+
 }
