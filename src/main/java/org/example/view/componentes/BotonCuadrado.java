@@ -25,6 +25,8 @@ public class BotonCuadrado extends BotonPersonalizado {
 
     public void setLado(int lado) {
         this.lado = lado;
+        setMaximumSize(new Dimension(lado, lado));
+        setMinimumSize(new Dimension(lado, lado));
         revalidate();
         repaint();
     }

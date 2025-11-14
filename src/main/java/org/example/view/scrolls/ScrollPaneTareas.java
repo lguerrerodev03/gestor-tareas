@@ -36,7 +36,7 @@ public class ScrollPaneTareas extends JScrollPane {
                 estado = EstadoTarea.CANCELADA;
             }
 
-            TareaCard tareaCard = new TareaCard("Tarea " + i, estado, "2024-12-31");
+            TareaCard tareaCard = new TareaCard(i, "Tarea " + i, estado, "2024-12-31");
             panelTareas.add(tareaCard);
             panelTareas.add(Box.createVerticalStrut(10)); // Espacio entre cards
         }

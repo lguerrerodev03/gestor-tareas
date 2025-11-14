@@ -12,13 +12,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TareaCard extends JPanel {
+    private int idTarea;
     private JLabel lblNombre;
     private JLabel lblEstado;
     private JLabel lblFechaVencimiento;
-    private List<BotonPersonalizado> botonesAccion = new ArrayList<>();
+    //private List<BotonPersonalizado> botonesAccion = new ArrayList<>();
     private EstadoTarea estadoTarea;
+    private BotonCuadrado btnEditar;
+    private BotonCuadrado btnEliminar;
 
-    public TareaCard(String nombre, EstadoTarea estado, String fechaVencimiento) {
+    public TareaCard(int idTarea, String nombre, EstadoTarea estado, String fechaVencimiento) {
         this.estadoTarea = estado;
         // Estilo general de la tarjeta
         this.setLayout(null);
@@ -39,22 +42,21 @@ public class TareaCard extends JPanel {
         lblFechaVencimiento.setBounds(10, 70, 300, 20);
         lblFechaVencimiento.setFont(new Font("Arial", Font.ITALIC, 12));
 
+        btnEditar = new BotonCuadrado("Editar");
+        btnEditar.setBounds(300, 10, 80, 80);
+        btnEditar.setColorNormal(Color.ORANGE);
+        btnEditar.setColorHover(new Color(255, 165, 0));
+
+        btnEliminar = new BotonCuadrado("Eliminar");
+        btnEliminar.setBounds(400, 10, 80, 80);
+        btnEliminar.setColorNormal(Color.RED);
+        btnEliminar.setColorHover(new Color(255, 69, 0));
+
         this.add(lblNombre);
         this.add(lblEstado);
         this.add(lblFechaVencimiento);
-
-        // Crear botones según las acciones válidas
-        int posX = 220;
-        for (AccionTarea accion : FlujoTarea.obtenerAccionesPosibles(estado)) {
-            BotonPersonalizado boton = new BotonPersonalizado(accion.name());
-            boton.setBounds(posX, 20, 100, 30);
-            boton.setFont(new Font("Verdana", Font.PLAIN, 11));
-            boton.setColorNormal(new Color(100, 149, 237));
-            boton.setColorHover(new Color(70, 130, 180));
-            add(boton);
-            botonesAccion.add(boton);
-            posX += 110;
-        }
+        this.add(btnEditar);
+        this.add(btnEliminar);
 
         // para clics
         this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -76,6 +78,14 @@ public class TareaCard extends JPanel {
             public void mouseExited(MouseEvent e) {
                 setBackground(getColorPorEstado(estado));
             }
+        });
+
+        btnEditar.addActionListener(e -> {
+            System.out.println("Editar tarea N°" + idTarea);
+        });
+
+        btnEliminar.addActionListener(e -> {
+            System.out.println("Eliminar tarea N°" + idTarea);
         });
     }
 

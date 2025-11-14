@@ -40,7 +40,7 @@ public class PanelTareas extends JPanel {
                 estado = EstadoTarea.CANCELADA;
             }
 
-            TareaCard tareaCard = new TareaCard("Tarea " + i, estado, "2024-12-31");
+            TareaCard tareaCard = new TareaCard(i, "Tarea " + i, estado, "2024-12-31");
             panelContenido.add(tareaCard);
             panelContenido.add(Box.createVerticalStrut(10));
         }
