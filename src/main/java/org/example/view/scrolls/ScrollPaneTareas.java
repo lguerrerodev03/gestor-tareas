@@ -1,9 +1,11 @@
 package org.example.view.scrolls;
 
+import org.example.model.Tarea;
 import org.example.model.enums.EstadoTarea;
 import org.example.view.componentes.TareaCard;
 
 import javax.swing.*;
+import java.time.LocalDateTime;
 
 public class ScrollPaneTareas extends JScrollPane {
 
@@ -35,8 +37,14 @@ public class ScrollPaneTareas extends JScrollPane {
             } else {
                 estado = EstadoTarea.CANCELADA;
             }
+            Tarea tarea = Tarea.builder()
+                    .id(i)
+                    .nombre("Tarea " + i)
+                    .estado(estado)
+                    .fechaVencimiento(LocalDateTime.parse("2024-12-31T00:00:00"))
+                    .build();
 
-            TareaCard tareaCard = new TareaCard(i, "Tarea " + i, estado, "2024-12-31");
+            TareaCard tareaCard = new TareaCard(tarea);
             panelTareas.add(tareaCard);
             panelTareas.add(Box.createVerticalStrut(10)); // Espacio entre cards
         }

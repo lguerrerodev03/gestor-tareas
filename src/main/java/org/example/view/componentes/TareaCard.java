@@ -1,8 +1,10 @@
 package org.example.view.componentes;
 
+import org.example.model.Tarea;
 import org.example.model.enums.AccionTarea;
 import org.example.model.enums.EstadoTarea;
 import org.example.rules.FlujoTarea;
+import org.example.view.FrameEditarTarea;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TareaCard extends JPanel {
-    private int idTarea;
+    private Tarea tarea;
     private JLabel lblNombre;
     private JLabel lblEstado;
     private JLabel lblFechaVencimiento;
@@ -21,24 +23,24 @@ public class TareaCard extends JPanel {
     private BotonCuadrado btnEditar;
     private BotonCuadrado btnEliminar;
 
-    public TareaCard(int idTarea, String nombre, EstadoTarea estado, String fechaVencimiento) {
-        this.estadoTarea = estado;
+    public TareaCard(Tarea tarea) {
+        this.estadoTarea = tarea.getEstado();
         // Estilo general de la tarjeta
         this.setLayout(null);
         this.setPreferredSize(new Dimension(500, 100));
         this.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
-        this.setBackground(getColorPorEstado(estado));
+        this.setBackground(getColorPorEstado(tarea.getEstado()));
 
         // Etiquetas
-        lblNombre = new JLabel("Nombre: " + nombre);
+        lblNombre = new JLabel("Nombre: " + tarea.getNombre());
         lblNombre.setBounds(10, 10, 300, 20);
         lblNombre.setFont(new Font("Arial", Font.BOLD, 14));
 
-        lblEstado = new JLabel("Estado: " + estado);
+        lblEstado = new JLabel("Estado: " + tarea.getEstado().toString());
         lblEstado.setBounds(10, 40, 300, 20);
         lblEstado.setFont(new Font("Arial", Font.PLAIN, 13));
 
-        lblFechaVencimiento = new JLabel("Vence: " + fechaVencimiento);
+        lblFechaVencimiento = new JLabel("Vence: " + tarea.getFechaVencimiento().toString());
         lblFechaVencimiento.setBounds(10, 70, 300, 20);
         lblFechaVencimiento.setFont(new Font("Arial", Font.ITALIC, 12));
 
@@ -64,28 +66,30 @@ public class TareaCard extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 JOptionPane.showMessageDialog(null,
-                        "Has seleccionado la tarea:\n" + nombre,
+                        "Has seleccionado la tarea:\n" + tarea.getNombre(),
                         "Tarea seleccionada",
                         JOptionPane.INFORMATION_MESSAGE);
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                setBackground(getColorHover(estado));
+                setBackground(getColorHover(tarea.getEstado()));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                setBackground(getColorPorEstado(estado));
+                setBackground(getColorPorEstado(tarea.getEstado()));
             }
         });
 
         btnEditar.addActionListener(e -> {
-            System.out.println("Editar tarea N°" + idTarea);
+            System.out.println("Editar tarea N°" + tarea.getId());
+            FrameEditarTarea frameEditarTarea = new FrameEditarTarea(tarea, this);
+            frameEditarTarea.setVisible(true);
         });
 
         btnEliminar.addActionListener(e -> {
-            System.out.println("Eliminar tarea N°" + idTarea);
+            System.out.println("Eliminar tarea N°" + tarea.getId());
         });
     }
 
@@ -104,4 +108,14 @@ public class TareaCard extends JPanel {
         return base.darker(); // un tono más oscuro
     }
 
+    public void actualizarTarea(Tarea tarea) {
+        this.tarea = tarea;
+        this.estadoTarea = tarea.getEstado();
+        lblNombre.setText("Nombre: " + tarea.getNombre());
+        lblEstado.setText("Estado: " + tarea.getEstado().toString());
+        lblFechaVencimiento.setText("Vence: " + tarea.getFechaVencimiento().toString());
+        this.setBackground(getColorPorEstado(tarea.getEstado()));
+        this.revalidate();
+        this.repaint();
+    }
 }

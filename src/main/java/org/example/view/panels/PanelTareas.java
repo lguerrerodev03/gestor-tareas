@@ -1,9 +1,11 @@
 package org.example.view.panels;
 
+import org.example.model.Tarea;
 import org.example.model.enums.EstadoTarea;
 import org.example.view.componentes.TareaCard;
 
 import javax.swing.*;
+import java.time.LocalDateTime;
 
 public class PanelTareas extends JPanel {
     private JPanel panelContenido;
@@ -39,8 +41,13 @@ public class PanelTareas extends JPanel {
             } else {
                 estado = EstadoTarea.CANCELADA;
             }
-
-            TareaCard tareaCard = new TareaCard(i, "Tarea " + i, estado, "2024-12-31");
+            Tarea tarea = Tarea.builder()
+                    .id(i)
+                    .nombre("Tarea " + i)
+                    .estado(estado)
+                    .fechaVencimiento(LocalDateTime.parse("2024-12-31"))
+                    .build();
+            TareaCard tareaCard = new TareaCard(tarea);
             panelContenido.add(tareaCard);
             panelContenido.add(Box.createVerticalStrut(10));
         }
