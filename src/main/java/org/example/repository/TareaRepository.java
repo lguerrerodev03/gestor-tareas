@@ -113,6 +113,55 @@ public class TareaRepository {
         return Optional.empty();
     }
 
+    /**
+     * Actualiza una tarea existente en la base de datos.
+     * @param tarea La tarea con los datos actualizados.
+     * @return true si la actualización fue exitosa, false en caso contrario.
+     */
+    public boolean actualizar(Tarea tarea) {
+        String sql = "UPDATE tareas SET nombre = ?, descripcion = ?, estado = ?, fechaVencimiento = ? WHERE id = ?";
+
+        try (Connection conn = ConexionBD.getConexion();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, tarea.getNombre());
+            ps.setString(2, tarea.getDescripcion());
+            ps.setString(3, tarea.getEstado().name());
+            ps.setString(4, tarea.getFechaVencimiento().toString());
+            ps.setInt(5, tarea.getId());
+
+            int filas = ps.executeUpdate();
+            return filas > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Realiza una eliminación lógica de una tarea por su ID.
+     * @param id El ID de la tarea a eliminar lógicamente.
+     * @return true si la eliminación lógica fue exitosa, false en caso contrario.
+     */
+    public boolean eliminarLogico(int id) {
+        String sql = "UPDATE tareas SET eliminado = 1 WHERE id = ?";
+        try (Connection conn = ConexionBD.getConexion();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            int filas = ps.executeUpdate();
+            return filas > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Elimina una tarea por su ID.
+     * @param id El ID de la tarea a eliminar.
+     * @return true si la eliminación fue exitosa, false en caso contrario.
+     */
     public boolean eliminar(int id) {
         String sql = "DELETE FROM tareas WHERE id = ?";
         try (Connection conn = ConexionBD.getConexion();

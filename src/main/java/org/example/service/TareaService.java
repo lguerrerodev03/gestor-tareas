@@ -9,13 +9,15 @@ import org.example.repository.TareaRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public class TareaService {
-    private final TareaRepository tareaRepository = new TareaRepository();
-    private final HistorialTareaRepository historialRepository = new HistorialTareaRepository();
+    private final TareaRepository tareaRepository;
+    private final HistorialTareaRepository historialRepository;
 
     public TareaService() {
-        //repository.crearTabla();
+        this.tareaRepository = new TareaRepository();
+        this.historialRepository = new HistorialTareaRepository();
     }
 
     public void crearTarea(String nombre, String descripcion, LocalDateTime fechaVencimiento) {
@@ -44,9 +46,11 @@ public class TareaService {
         return tareaRepository.listar();
     }
 
-    public Tarea obtenerTareaPorId(int id) {
-        return tareaRepository.obtenerPorId(id).orElse(null);
+    public Optional<Tarea> obtenerTareaPorId(int id) {
+
+        if (id <= 0) {
+            return Optional.empty();
+        }
+        return tareaRepository.obtenerPorId(id);
     }
-
-
 }

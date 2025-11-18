@@ -7,7 +7,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class TareaController {
-    private final TareaService tareaService = new TareaService();
+    private final TareaService tareaService;
+
+    public TareaController() {
+        this.tareaService = new TareaService();
+    }
 
     public void crearTarea(String nombre, String descripcion, LocalDateTime fechaVencimiento) {
         tareaService.crearTarea(nombre, descripcion, fechaVencimiento);
@@ -15,5 +19,9 @@ public class TareaController {
 
     public List<Tarea> listarTareas() {
         return tareaService.obtenerTareas();
+    }
+
+    public Tarea obtenerTareaPorId(int id) {
+        return tareaService.obtenerTareaPorId(id).orElse(null);
     }
 }
