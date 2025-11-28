@@ -51,7 +51,7 @@ public class TareaRepository {
                 "tareas(nombre, descripcion, estado, fechaCreacion, fechaVencimiento) " +
                 "VALUES(?,?,?,?,?)";
         try (Connection conn = ConexionBD.getConexion();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, tarea.getNombre());
             ps.setString(2, tarea.getDescripcion());
             ps.setString(3, tarea.getEstado().name());
@@ -144,7 +144,7 @@ public class TareaRepository {
      * @param id El ID de la tarea a eliminar lógicamente.
      * @return true si la eliminación lógica fue exitosa, false en caso contrario.
      */
-    public boolean eliminarLogico(int id) {
+    public boolean eliminarLogicamente(int id) {
         String sql = "UPDATE tareas SET eliminado = 1 WHERE id = ?";
         try (Connection conn = ConexionBD.getConexion();
              PreparedStatement ps = conn.prepareStatement(sql)) {

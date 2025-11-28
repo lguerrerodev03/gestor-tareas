@@ -7,5 +7,6 @@ public enum AccionTarea {
     COMPLETAR,
     CANCELAR,
     REABRIR,
-    VER;
+    VER,
+    ELIMINAR;
 }

@@ -6,6 +6,7 @@ import org.example.model.enums.AccionTarea;
 import org.example.model.enums.EstadoTarea;
 import org.example.repository.HistorialTareaRepository;
 import org.example.repository.TareaRepository;
+import org.example.rules.FlujoTarea;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -52,5 +53,36 @@ public class TareaService {
             return Optional.empty();
         }
         return tareaRepository.obtenerPorId(id);
+    }
+
+    public boolean actualizarTarea(Tarea tarea) {
+        return tareaRepository.actualizar(tarea);
+    }
+
+    public boolean actualizarEstadoTarea(int id, AccionTarea accion) {
+        Tarea tarea = tareaRepository.obtenerPorId(id).orElse(null);
+        if (tarea == null) return false;
+        EstadoTarea nuevoEstado = FlujoTarea.obtenerNuevoEstado(accion).orElse(null);
+        if (nuevoEstado == null) return false;
+        tarea.cambiarEstado(nuevoEstado);
+        boolean actualizado = tareaRepository.actualizar(tarea);
+        if (actualizado) {
+            HistorialTarea historial = HistorialTarea.builder()
+                    .tareaId(tarea.getId())
+                    .accion(accion)
+                    .fecha(LocalDateTime.now())
+                    .comentario("Estado cambiado a " + nuevoEstado)
+                    .build();
+            historialRepository.insertar(historial);
+        }
+        return actualizado;
+    }
+
+    public boolean eliminarTarea(int id) {
+        return tareaRepository.eliminar(id);
+    }
+
+    public boolean eliminarTareaLogicamente(int id) {
+        return tareaRepository.eliminarLogicamente(id);
     }
 }
