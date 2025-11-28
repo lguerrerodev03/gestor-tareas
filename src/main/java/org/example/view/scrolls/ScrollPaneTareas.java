@@ -1,15 +1,19 @@
 package org.example.view.scrolls;
 
+import org.example.config.AppContext;
+import org.example.controller.TareaController;
 import org.example.model.Tarea;
 import org.example.model.enums.EstadoTarea;
 import org.example.view.componentes.TareaCard;
 
 import javax.swing.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ScrollPaneTareas extends JScrollPane {
 
     private JPanel panelTareas;
+    private TareaController tareaController = AppContext.INSTANCE.getTareaController();
 
     public ScrollPaneTareas() {
         panelTareas = new JPanel();
@@ -20,10 +24,23 @@ public class ScrollPaneTareas extends JScrollPane {
         this.setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_ALWAYS);
         this.getVerticalScrollBar().setUnitIncrement(30);
 
-        cargarTareas(50); // Cargar tareas de ejemplo
+        //cargarTareasDemo(50); // Cargar tareas de ejemplo
+        cargarTareas();
     }
 
-    public void cargarTareas(int cantidad) {
+    private void cargarTareas() {
+        panelTareas.removeAll();
+        List<Tarea> listaTareas = tareaController.listarTareas();
+        for (Tarea tarea : listaTareas) {
+            TareaCard tareaCard = new TareaCard(tarea);
+            panelTareas.add(tareaCard);
+            panelTareas.add(Box.createVerticalStrut(10)); // Espacio entre cards
+        }
+        panelTareas.revalidate();
+        panelTareas.repaint();
+    }
+
+    public void cargarTareasDemo(int cantidad) {
         panelTareas.removeAll();
         for (int i = 1; i <= cantidad; i++) {
             EstadoTarea estado;

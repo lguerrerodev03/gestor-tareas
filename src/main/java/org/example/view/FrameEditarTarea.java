@@ -1,7 +1,11 @@
 package org.example.view;
 
 import com.toedter.calendar.JDateChooser;
+import org.example.config.AppContext;
+import org.example.controller.TareaController;
 import org.example.model.Tarea;
+import org.example.util.DialogUtils;
+import org.example.util.TipoMensaje;
 import org.example.view.componentes.BotonPersonalizado;
 import org.example.view.componentes.TareaCard;
 
@@ -22,6 +26,7 @@ public class FrameEditarTarea extends JFrame {
     private BotonPersonalizado btnCancelar = new BotonPersonalizado("Cancelar");
 
     public FrameEditarTarea(Tarea tarea, TareaCard tareaCard) {
+        TareaController tareaController = AppContext.INSTANCE.getTareaController();
         this.card = tareaCard;
         setTitle("Editar Tarea");
         setSize(400, 500);
@@ -77,13 +82,30 @@ public class FrameEditarTarea extends JFrame {
             tarea.setDescripcion(txtDescripcionTarea.getText());
             tarea.setFechaVencimiento(fechaVencimientoChooser.getDate().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime());
 
-            card.actualizarTarea(tarea);
+            if (tareaController.actualizarTarea(tarea)) {
+                System.out.println("Tarea actualizada exitosamente.");
 
-            // Cerrar el frame después de guardar
-            System.out.println("Tarea actualizada: " + tarea.getNombre());
-            System.out.println("Descripción: " + tarea.getDescripcion());
-            System.out.println("Fecha de Vencimiento: " + tarea.getFechaVencimiento());
-            dispose();
+                card.actualizarTarea(tarea);
+
+                // Cerrar el frame después de guardar
+                System.out.println("Tarea actualizada: " + tarea.getNombre());
+                System.out.println("Descripción: " + tarea.getDescripcion());
+                System.out.println("Fecha de Vencimiento: " + tarea.getFechaVencimiento());
+                dispose();
+
+                DialogUtils.mostrarMensaje(
+                        "Tarea actualizada exitosamente.",
+                        TipoMensaje.INFO,
+                        "INFORMATION_MESSAGE"
+                );
+            } else {
+                System.out.println("Error al actualizar la tarea.");
+                DialogUtils.mostrarMensaje(
+                        "Error al actualizar la tarea. Por favor, inténtalo de nuevo.",
+                        TipoMensaje.ERROR,
+                        "ERROR_MESSAGE"
+                );
+            }
         });
 
     }

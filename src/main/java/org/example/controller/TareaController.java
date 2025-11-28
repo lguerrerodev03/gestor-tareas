@@ -24,4 +24,8 @@ public class TareaController {
     public Tarea obtenerTareaPorId(int id) {
         return tareaService.obtenerTareaPorId(id).orElse(null);
     }
+
+    public boolean actualizarTarea(Tarea tarea) {
+        return tareaService.actualizarTarea(tarea);
+    }
 }

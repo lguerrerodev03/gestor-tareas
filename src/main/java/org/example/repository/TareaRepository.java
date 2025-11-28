@@ -3,6 +3,7 @@ package org.example.repository;
 import org.example.database.ConexionBD;
 import org.example.model.Tarea;
 import org.example.model.enums.EstadoTarea;
+import org.example.util.FechaUtils;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -181,8 +182,8 @@ public class TareaRepository {
                 rs.getString("nombre"),
                 rs.getString("descripcion"),
                 EstadoTarea.valueOf(rs.getString("estado")),
-                LocalDateTime.parse(rs.getString("fechaCreacion")),
-                LocalDateTime.parse(rs.getString("fechaVencimiento")),
+                FechaUtils.parseFecha(rs.getString("fechaCreacion")),
+                FechaUtils.parseFecha(rs.getString("fechaVencimiento")),
                 rs.getInt("eliminado") == 1,
                 new ArrayList<>()
         );

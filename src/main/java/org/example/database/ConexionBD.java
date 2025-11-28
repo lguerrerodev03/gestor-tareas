@@ -6,29 +6,15 @@ import java.sql.SQLException;
 
 public class ConexionBD {
     private static final String URL = "jdbc:sqlite:database.tareas.db";
-    private static Connection conexion = null;
+    //private static Connection conexion;
 
     public static Connection getConexion() {
-        if (conexion == null) {
-            try {
-                conexion = DriverManager.getConnection(URL);
-                System.out.println("✅ Conexión a SQLite establecida.");
-            } catch (SQLException e) {
-                System.out.println("❌ Error al conectar con la base de datos: " + e.getMessage());
-            }
+        try {
+            System.out.println("✅ Conexión a SQLite establecida.");
+            return DriverManager.getConnection(URL);
+        } catch (SQLException e) {
+            throw new RuntimeException("❌ Error al conectar con la base de datos: " + e.getMessage());
         }
-        return conexion;
     }
 
-    public static void cerrarConexion() {
-        if (conexion != null) {
-            try {
-                conexion.close();
-                conexion = null;
-                System.out.println("🔒 Conexión cerrada.");
-            } catch (SQLException e) {
-                System.out.println("❌ Error al cerrar la conexión: " + e.getMessage());
-            }
-        }
-    }
 }

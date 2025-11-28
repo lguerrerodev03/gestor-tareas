@@ -4,10 +4,7 @@ import org.example.database.ConexionBD;
 import org.example.model.HistorialTarea;
 import org.example.model.enums.AccionTarea;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +22,13 @@ public class HistorialTareaRepository {
                      "comentario TEXT," +
                      "FOREIGN KEY(tarea_id) REFERENCES tareas(id) ON DELETE CASCADE" +
                      ");";
+
+        try (Connection conn = ConexionBD.getConexion();
+             Statement stmt = conn.createStatement()) {
+            stmt.execute(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean insertar(HistorialTarea historial) {
