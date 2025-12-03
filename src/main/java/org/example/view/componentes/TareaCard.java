@@ -5,6 +5,7 @@ import org.example.model.enums.AccionTarea;
 import org.example.model.enums.EstadoTarea;
 import org.example.rules.FlujoTarea;
 import org.example.view.FrameEditarTarea;
+import org.example.view.listeners.TareaSeleccionadaListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,7 +24,10 @@ public class TareaCard extends JPanel {
     private BotonCuadrado btnEditar;
     private BotonCuadrado btnEliminar;
 
+    private TareaSeleccionadaListener tareaSeleccionadaListener;
+
     public TareaCard(Tarea tarea) {
+        this.tarea = tarea;
         this.estadoTarea = tarea.getEstado();
         // Estilo general de la tarjeta
         this.setLayout(null);
@@ -65,10 +69,9 @@ public class TareaCard extends JPanel {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JOptionPane.showMessageDialog(null,
-                        "Has seleccionado la tarea:\n" + tarea.getNombre(),
-                        "Tarea seleccionada",
-                        JOptionPane.INFORMATION_MESSAGE);
+                if (tareaSeleccionadaListener != null) {
+                    tareaSeleccionadaListener.onTareaSeleccionada(tarea);
+                }
             }
 
             @Override
@@ -91,6 +94,10 @@ public class TareaCard extends JPanel {
         btnEliminar.addActionListener(e -> {
             System.out.println("Eliminar tarea N°" + tarea.getId());
         });
+    }
+
+    public void setTareaSeleccionadaListener(TareaSeleccionadaListener listener) {
+        this.tareaSeleccionadaListener = listener;
     }
 
     private Color getColorPorEstado(EstadoTarea estado) {

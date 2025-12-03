@@ -5,6 +5,8 @@ import org.example.controller.TareaController;
 import org.example.model.Tarea;
 import org.example.model.enums.EstadoTarea;
 import org.example.view.componentes.TareaCard;
+import org.example.view.listeners.TareaSeleccionadaListener;
+import org.example.view.panels.PanelInformacion;
 
 import javax.swing.*;
 import java.time.LocalDateTime;
@@ -15,7 +17,10 @@ public class ScrollPaneTareas extends JScrollPane {
     private JPanel panelTareas;
     private TareaController tareaController = AppContext.INSTANCE.getTareaController();
 
-    public ScrollPaneTareas() {
+    private PanelInformacion panelInformacion;
+
+    public ScrollPaneTareas(PanelInformacion panelInformacion) {
+        this.panelInformacion = panelInformacion;
         panelTareas = new JPanel();
         panelTareas.setBorder(BorderFactory.createTitledBorder("Tareas"));
         panelTareas.setLayout(new BoxLayout(panelTareas, BoxLayout.Y_AXIS));
@@ -23,16 +28,21 @@ public class ScrollPaneTareas extends JScrollPane {
         //this.setBounds(20, 110, 550, 550);
         this.setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_ALWAYS);
         this.getVerticalScrollBar().setUnitIncrement(30);
-
         //cargarTareasDemo(50); // Cargar tareas de ejemplo
         cargarTareas();
     }
+
 
     private void cargarTareas() {
         panelTareas.removeAll();
         List<Tarea> listaTareas = tareaController.listarTareas();
         for (Tarea tarea : listaTareas) {
             TareaCard tareaCard = new TareaCard(tarea);
+            tareaCard.setTareaSeleccionadaListener(t -> {
+                if (panelInformacion != null) {
+                    panelInformacion.onTareaSeleccionada(t);
+                }
+            });
             panelTareas.add(tareaCard);
             panelTareas.add(Box.createVerticalStrut(10)); // Espacio entre cards
         }

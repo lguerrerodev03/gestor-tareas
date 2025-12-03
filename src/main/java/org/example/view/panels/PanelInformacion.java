@@ -5,6 +5,7 @@ import org.example.model.enums.AccionTarea;
 import org.example.model.enums.EstadoTarea;
 import org.example.rules.FlujoTarea;
 import org.example.view.componentes.BotonPersonalizado;
+import org.example.view.listeners.TareaSeleccionadaListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PanelInformacion extends JPanel {
+public class PanelInformacion extends JPanel implements TareaSeleccionadaListener {
 
     private JLabel lblNombreTarea;
     private JTextArea txtDescripcionTarea;
@@ -109,4 +110,8 @@ public class PanelInformacion extends JPanel {
         System.out.println("Acción seleccionada: " + accion + " para la tarea " + tarea.getNombre());
     }
 
+    @Override
+    public void onTareaSeleccionada(Tarea tarea) {
+        actualizarInformacion(tarea);
+    }
 }

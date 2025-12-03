@@ -41,8 +41,10 @@ public class Dashboard extends JFrame implements ActionListener {
         // panels
         panelTitulo = new PanelTitulo();
         panelBusqueda = new PanelBusqueda();
-        scrollPaneTareas = new ScrollPaneTareas();
         panelInformacion = new PanelInformacion(12);
+
+        scrollPaneTareas = new ScrollPaneTareas(panelInformacion);
+
         panelBotones = new PanelBotones();
 
         definirDimensiones(this.getWidth(), this.getHeight());
