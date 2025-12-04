@@ -1,9 +1,13 @@
 package org.example.view.panels;
 
+import org.example.config.AppContext;
+import org.example.controller.TareaController;
 import org.example.model.Tarea;
 import org.example.model.enums.AccionTarea;
 import org.example.model.enums.EstadoTarea;
 import org.example.rules.FlujoTarea;
+import org.example.util.DialogUtils;
+import org.example.util.TipoMensaje;
 import org.example.view.componentes.BotonPersonalizado;
 import org.example.view.listeners.TareaSeleccionadaListener;
 
@@ -15,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PanelInformacion extends JPanel implements TareaSeleccionadaListener {
-
+    TareaController tareaController;
     private JLabel lblNombreTarea;
     private JTextArea txtDescripcionTarea;
     private JLabel lblFechaCreacion;
@@ -24,6 +28,7 @@ public class PanelInformacion extends JPanel implements TareaSeleccionadaListene
     private List<BotonPersonalizado> botonesAccion = new ArrayList<>();;
 
     public PanelInformacion(int idTarea) {
+        tareaController = AppContext.INSTANCE.getTareaController();
         setBounds(570, 110, 300, 550);
         setBorder(BorderFactory.createTitledBorder("Información"));
         setLayout(null);
@@ -108,6 +113,38 @@ public class PanelInformacion extends JPanel implements TareaSeleccionadaListene
 
     private void manejarAccion(AccionTarea accion, Tarea tarea) {
         System.out.println("Acción seleccionada: " + accion + " para la tarea " + tarea.getNombre());
+        boolean confirmado = DialogUtils.confirmarAccion(
+                accion.name().toLowerCase(),
+                "Confirmar Acción"
+        );
+
+        if (confirmado) {
+            // Aquí iría la lógica para manejar la acción seleccionada
+            // Por ejemplo, actualizar el estado de la tarea en el modelo o base de datos
+            System.out.println("Acción confirmada: " + accion);
+
+            boolean actualizado = tareaController.actualizarEstadoTarea(tarea.getId(), accion);
+
+            if (actualizado) {
+                Tarea tareaActualizada = tareaController.obtenerTareaPorId(tarea.getId()).orElse(tarea);
+                actualizarInformacion(tareaActualizada);
+                DialogUtils.mostrarMensaje(
+                        "La acción '" + accion.name().toLowerCase() + "' se ha realizado correctamente.",
+                        TipoMensaje.INFO,
+                        "INFORMATION_MESSAGE"
+                );
+            } else {
+                DialogUtils.mostrarMensaje(
+                        "No se pudo realizar la acción '" + accion.name().toLowerCase() + "'.",
+                        TipoMensaje.ERROR,
+                        "ERROR_MESSAGE"
+                );
+            }
+
+        } else {
+            System.out.println("Acción cancelada: " + accion);
+        }
+
     }
 
     @Override

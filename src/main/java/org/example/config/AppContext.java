@@ -15,7 +15,7 @@ public enum AppContext {
         DatabaseInitializer.inicializar();
 
         this.tareaService = new TareaService();
-        this.tareaController = new TareaController();
+        this.tareaController = new TareaController(tareaService);
     }
 
     public TareaService getTareaService() {

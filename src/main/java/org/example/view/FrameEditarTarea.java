@@ -84,15 +84,9 @@ public class FrameEditarTarea extends JFrame {
 
             if (tareaController.actualizarTarea(tarea)) {
                 System.out.println("Tarea actualizada exitosamente.");
-
                 card.actualizarTarea(tarea);
-
                 // Cerrar el frame después de guardar
-                System.out.println("Tarea actualizada: " + tarea.getNombre());
-                System.out.println("Descripción: " + tarea.getDescripcion());
-                System.out.println("Fecha de Vencimiento: " + tarea.getFechaVencimiento());
                 dispose();
-
                 DialogUtils.mostrarMensaje(
                         "Tarea actualizada exitosamente.",
                         TipoMensaje.INFO,

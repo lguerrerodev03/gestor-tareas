@@ -14,10 +14,16 @@ public class FechaUtils {
         }
 
         try {
-            // caso ISO_OFFSET_DATE_TIME → 2025-04-15T01:33:06Z
-            if (fechaStr.contains("T") || fechaStr.contains("+") || fechaStr.contains("-0") && fechaStr.contains("Z")) {
+            // ISO_OFFSET_DATE_TIME → termina con Z o contiene +HH:mm
+            if (fechaStr.matches("\\d{4}-\\d{2}-\\d{2}T.*(Z|[+-]\\d{2}:?\\d{2})")) {
                 System.out.println("Parseando fecha ISO_OFFSET_DATE_TIME: " + fechaStr);
                 return LocalDateTime.parse(fechaStr, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+            }
+
+            // ISO_LOCAL_DATE_TIME → tiene T pero sin zona
+            if (fechaStr.matches("\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}")) {
+                System.out.println("Parseando fecha ISO_LOCAL_DATE_TIME: " + fechaStr);
+                return LocalDateTime.parse(fechaStr, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
             }
             // caso ISO_LOCAL_DATE_TIME → 2025-04-15T01:33:06
             if (fechaStr.contains("T")) {

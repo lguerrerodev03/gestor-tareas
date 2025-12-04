@@ -18,20 +18,16 @@ public class FlujoTarea {
         flujoAcciones.put(EstadoTarea.CANCELADA, Arrays.asList(AccionTarea.REABRIR));
 
         // Acciones generales permitidas en cualquier estado
-        flujoAcciones.put(EstadoTarea.PENDIENTE, Arrays.asList(AccionTarea.VER));
-        flujoAcciones.put(EstadoTarea.EN_PROGRESO, Arrays.asList(AccionTarea.VER));
-        flujoAcciones.put(EstadoTarea.COMPLETADA, Arrays.asList(AccionTarea.VER));
-        flujoAcciones.put(EstadoTarea.CANCELADA, Arrays.asList(AccionTarea.VER));
-
-        // Acciones de edición permitidas en cualquier estado
-        flujoAcciones.put(EstadoTarea.PENDIENTE, Arrays.asList(AccionTarea.EDITAR));
-        flujoAcciones.put(EstadoTarea.EN_PROGRESO, Arrays.asList(AccionTarea.EDITAR));
-        flujoAcciones.put(EstadoTarea.COMPLETADA, Arrays.asList(AccionTarea.EDITAR));
-        flujoAcciones.put(EstadoTarea.CANCELADA, Arrays.asList(AccionTarea.EDITAR));
-
-        // Acción de creación permitida en cualquier estado
-        flujoAcciones.put(EstadoTarea.PENDIENTE, Arrays.asList(AccionTarea.CREAR));
-        flujoAcciones.put(EstadoTarea.EN_PROGRESO, Arrays.asList(AccionTarea.CREAR));
+//        flujoAcciones.put(EstadoTarea.PENDIENTE, Arrays.asList(AccionTarea.VER));
+//        flujoAcciones.put(EstadoTarea.EN_PROGRESO, Arrays.asList(AccionTarea.VER));
+//        flujoAcciones.put(EstadoTarea.COMPLETADA, Arrays.asList(AccionTarea.VER));
+//        flujoAcciones.put(EstadoTarea.CANCELADA, Arrays.asList(AccionTarea.VER));
+//
+//        // Acciones de edición permitidas en cualquier estado
+//        flujoAcciones.put(EstadoTarea.PENDIENTE, Arrays.asList(AccionTarea.EDITAR));
+//        flujoAcciones.put(EstadoTarea.EN_PROGRESO, Arrays.asList(AccionTarea.EDITAR));
+//        flujoAcciones.put(EstadoTarea.COMPLETADA, Arrays.asList(AccionTarea.EDITAR));
+//        flujoAcciones.put(EstadoTarea.CANCELADA, Arrays.asList(AccionTarea.EDITAR));
 
         // Definición de transiciones de estado basadas en acciones
         transicionesEstado.put(AccionTarea.INICIAR, EstadoTarea.EN_PROGRESO);

@@ -27,4 +27,19 @@ public class DialogUtils {
         dialog.setAlwaysOnTop(true);
         dialog.setVisible(true);
     }
+
+    public static boolean confirmarAccion(String accion, String titulo) {
+        String mensaje = "¿Estás seguro de que deseas " + accion + "?";
+
+        int resultado = JOptionPane.showConfirmDialog(
+                null,
+                mensaje,
+                titulo,
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE
+        );
+
+        return resultado == JOptionPane.YES_OPTION;
+    }
+
 }

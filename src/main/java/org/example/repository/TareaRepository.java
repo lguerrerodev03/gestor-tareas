@@ -7,6 +7,7 @@ import org.example.util.FechaUtils;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -128,7 +129,7 @@ public class TareaRepository {
             ps.setString(1, tarea.getNombre());
             ps.setString(2, tarea.getDescripcion());
             ps.setString(3, tarea.getEstado().name());
-            ps.setString(4, tarea.getFechaVencimiento().toString());
+            ps.setString(4, tarea.getFechaVencimiento().atOffset(ZoneOffset.UTC).toString());
             ps.setInt(5, tarea.getId());
 
             int filas = ps.executeUpdate();
